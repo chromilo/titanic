@@ -13,6 +13,7 @@
 - Calling predict() method generates a prediction list of all 0 which is incorrect I think.
 
 - Submission of model against test.csv dataset resulted in a submission.csv with 184 rows (survivors) out of 418 passengers.
+- A 0.7416 accuracy.
 - Screenshot
 https://github.com/chromilo/titanic/blob/main/submission.JPG
 
