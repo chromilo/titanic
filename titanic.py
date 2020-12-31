@@ -71,22 +71,23 @@ titanic_preprocessing(features_dict)
 
 def titanic_model(preprocessing_head, inputs):
   body = tf.keras.Sequential([
-    layers.Dense(64),
-    layers.Dense(1)
+    layers.Dense(64,activation='sigmoid'),
+    layers.Dense(1,activation='sigmoid')
   ])
 
   preprocessed_inputs = preprocessing_head(inputs)
   result = body(preprocessed_inputs)
   model = tf.keras.Model(inputs, result)
 
+  #model.compile(loss=tf.losses.SparseCategoricalCrossentropy(),
   model.compile(loss=tf.losses.BinaryCrossentropy(from_logits=True),
-                optimizer=tf.optimizers.Adam())
+                   optimizer=tf.optimizers.Adam())
   return model
 
 titanic_model = titanic_model(titanic_preprocessing, inputs)
-#x=titanic_features_dict
-#y=titanic_labels
-titanic_model.fit(x=titanic_features_dict, y=titanic_labels, epochs=10)
+x=titanic_features_dict
+y=titanic_labels
+titanic_model.fit(x, y, epochs=100)
 #----------------------------
 titanic_test = pd.read_csv("/home/chromilo/test.csv")
 titanic_test.head()
@@ -105,7 +106,27 @@ x_test=titanic_features_dict_test
 # Generate predictions (probabilities -- the output of the last layer)
 # on new data using `predict`
 predictions = titanic_model.predict(x_test)
-predictions = np.argmax(predictions, axis = 1)
-print(predictions)
+#predictions = np.argmax(predictions, axis = 1)
+predictions = np.round(predictions)
+
+n=0
+survived=0
+submission = []
+for u in predictions:
+   dta = []
+   passenger = int(titanic_test.loc[n][0])
+   dta.append(passenger)
+   if(u>0):
+      survived += 1
+      dta.append("1")
+   else:
+      dta.append("0")  
+   submission.append(dta)
+   n += 1    
+df = pd.DataFrame(submission) 
+df.columns = ['PassengerId', 'Survived']
+print(df)
+csv_data = df.to_csv('/home/chromilo/submission.csv', index = False) 
+print(n,survived)
 
 tf.keras.utils.plot_model(model = titanic_preprocessing , rankdir="LR", dpi=72, show_shapes=True)
