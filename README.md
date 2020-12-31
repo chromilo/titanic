@@ -10,7 +10,7 @@
   - replacing spaces with "999" in columns Age and Fare;
   - replacing spaces with "X" in Embark column;
 - I skipped calling evaluate() because I didn't know what to assign to the y_test label. Do I add another column called "Survived" in test.csv? What values would I use?
-- Calling predict() method generates a prediction list of all 0 which is incorrect I think.
+- Calling predict() method generates a prediction list of all 0 which is incorrect so @Mahmoud Yasser helped troubleshoot and fix that rounding issue and missing activation function, i.e. use 'sigmoid' function to generate a binary 0 or 1.
 
 - Submission of model against test.csv dataset resulted in a submission.csv with 184 rows (survivors) out of 418 passengers.
 - A 0.7416 accuracy.
