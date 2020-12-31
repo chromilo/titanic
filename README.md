@@ -17,4 +17,4 @@
 https://github.com/chromilo/titanic/blob/main/submission.JPG
 
 - Leaderboard
-
+https://github.com/chromilo/titanic/blob/main/leaderboard.JPG
